@@ -15,7 +15,6 @@ import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 
 function CreateListing() {
-  const [geolocationEnabled, setgeolocationEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: "rent",
@@ -45,8 +44,6 @@ function CreateListing() {
     regularPrice,
     discountedPrice,
     images,
-    latitude,
-    longitude,
   } = formData;
 
   const auth = getAuth();
@@ -139,9 +136,12 @@ function CreateListing() {
       timestamp: serverTimestamp(),
     };
 
+    let location;
+    formDataCopy.location = address;
     delete formDataCopy.images;
     delete formDataCopy.address;
 
+    console.log(location);
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
 
     const docRef = await addDoc(collection(db, "listings"), formDataCopy);
